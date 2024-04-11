@@ -9,6 +9,18 @@ dotenv.config({
 const app=express()
 
 connectDB()
+.then(()=>{
+    app.listen(process.env.PORT|| 8000,()=>{
+        console.log(` Server is running at ${process.env.PORT}`);
+    })
+})
+.catch((err)=>{
+    console.log('Error=---',err)
+})
+
+
+
+
 
 // ( async()=>{
 //     console.log('mongo uri---',process.env.MONGOURI);
@@ -16,7 +28,7 @@ connectDB()
 //    await  mongoose.connect(`${process.env.MONGOURI}/${DB_NAME}`)
 
 //  app.on("error" ,(error)=>{
-//     console.log('error--',error);
+//     console.log('error--',error)
 //     throw error
 //  })
 //  app.listen(process.env.PORT,()=>{
