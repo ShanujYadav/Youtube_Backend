@@ -8,8 +8,11 @@ const uploadOnCloudinary=async (localFilePath)=>{
         
         // File Uploaded SuccessFully
         console.log('File uploaded on Cloudinary--',response.url)
+        return response
+
     } catch (error) {
         fs.unlinkSync(localFilePath)
+        return null
     }
 }
 
@@ -19,3 +22,5 @@ cloudinary.config({
   api_secret: process.env.CLOUDINARY_API_SECRET
 });
 
+
+export {uploadOnCloudinary}
