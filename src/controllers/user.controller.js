@@ -16,7 +16,7 @@ const registerUser = asyncHandler(async (req, res) => {
     }
 
     // check for Exist User
-    const existedUser = User.findOne({
+    const existedUser =await User.findOne({
         $or: [{ userName }, { email }]
     })
     if (existedUser) {
@@ -24,8 +24,13 @@ const registerUser = asyncHandler(async (req, res) => {
     }
 
     // Check For Files
-    const avtarLocalPath = req.files?.avtar(0)?.path
-    const coverImageLocalPath = req.files?.coverImage(0)?.path
+    const avtarLocalPath = req.files?.avtar[0]?.path
+    // const coverImageLocalPath = req.files?.coverImage[0]?.path
+
+    let coverImageLocalPath 
+    if(req.files && Array.isArray(req.files.coverImage) && req.files.coverImage.length >0){
+        coverImageLocalPath=req.files.coverImage[0].path
+    }
 
     if (!avtarLocalPath) {
         throw new ApiError(400, "Avtar file is Required !")
@@ -60,6 +65,6 @@ const registerUser = asyncHandler(async (req, res) => {
     return res.status(201).json(
         new ApiResponse('000',createdUser,"User Registered SuccessFully ")
     )
-    
+
 })
 export { registerUser }
